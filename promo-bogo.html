@@ -7,667 +7,600 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset ─────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
-    /* ── Tokens ────────────────────────────── */
     :root {
       --navy:        #0B1929;
-      --navy-mid:    #112236;
-      --navy-light:  #1A3350;
-      --teal:        #00C9B1;
-      --teal-dark:   #00A896;
-      --teal-glow:   rgba(0,201,177,0.18);
-      --teal-glow2:  rgba(0,201,177,0.06);
+      --teal:        #00A896;
+      --teal-dark:   #008578;
+      --teal-light:  #E6F7F5;
+      --teal-mid:    #CCF0EC;
+      --teal-border: rgba(0,168,150,0.2);
       --white:       #FFFFFF;
-      --off-white:   #EDF4F8;
-      --text-muted:  rgba(255,255,255,0.55);
-      --border:      rgba(0,201,177,0.2);
+      --bg:          #F7FAFA;
+      --bg-card:     #FFFFFF;
+      --text:        #0B1929;
+      --text-muted:  #637381;
+      --border:      #E8EFF0;
     }
 
     body {
       font-family: 'Inter', system-ui, sans-serif;
-      background: var(--navy);
-      color: var(--white);
+      background: var(--bg);
+      color: var(--text);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* ── Animated mesh background ─────────── */
-    .bg-mesh {
+    /* ── Subtle dot pattern background ── */
+    body::before {
+      content: '';
       position: fixed;
       inset: 0;
-      z-index: 0;
-      overflow: hidden;
+      background-image: radial-gradient(circle, #c8dedd 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.45;
       pointer-events: none;
-    }
-    .bg-mesh::before {
-      content: '';
-      position: absolute;
-      width: 800px; height: 800px;
-      background: radial-gradient(circle, rgba(0,201,177,0.12) 0%, transparent 70%);
-      top: -200px; left: -200px;
-      animation: drift1 18s ease-in-out infinite alternate;
-    }
-    .bg-mesh::after {
-      content: '';
-      position: absolute;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(0,120,255,0.08) 0%, transparent 70%);
-      bottom: -100px; right: -100px;
-      animation: drift2 22s ease-in-out infinite alternate;
-    }
-    @keyframes drift1 { to { transform: translate(80px, 60px); } }
-    @keyframes drift2 { to { transform: translate(-60px, -80px); } }
-
-    /* grid lines overlay */
-    .bg-grid {
-      position: fixed;
-      inset: 0;
       z-index: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(0,201,177,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,201,177,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
     }
 
-    /* ── Layout ────────────────────────────── */
     .page {
       position: relative;
       z-index: 1;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    section {
-      width: 100%;
-      max-width: 760px;
-      padding: 0 20px;
-    }
-
-    /* ── Top bar ───────────────────────────── */
+    /* ── Top urgency bar ── */
     .topbar {
       width: 100%;
-      background: var(--teal);
-      color: var(--navy);
+      background: var(--navy);
+      color: var(--white);
       text-align: center;
-      padding: 10px 20px;
+      padding: 11px 20px;
       font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.04em;
       position: relative;
       z-index: 2;
     }
-    .topbar span {
-      display: inline-block;
-      animation: pulse-text 2.5s ease-in-out infinite;
-    }
-    @keyframes pulse-text {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.75; }
+    .topbar em {
+      color: #4DEDD8;
+      font-style: normal;
+      font-weight: 700;
     }
 
-    /* ── Hero ──────────────────────────────── */
+    /* ── Hero ── */
     .hero {
-      padding-top: 64px;
-      padding-bottom: 48px;
+      width: 100%;
+      max-width: 800px;
+      padding: 72px 24px 56px;
       text-align: center;
-      max-width: 760px;
     }
 
-    .brand-tag {
+    .badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: var(--teal-glow);
-      border: 1px solid var(--border);
+      gap: 7px;
+      background: var(--teal-light);
+      border: 1px solid var(--teal-border);
       border-radius: 100px;
       padding: 6px 16px;
       font-size: 12px;
-      font-weight: 600;
-      color: var(--teal);
-      letter-spacing: 0.08em;
+      font-weight: 700;
+      color: var(--teal-dark);
+      letter-spacing: 0.09em;
       text-transform: uppercase;
       margin-bottom: 28px;
-      animation: fade-up 0.6s ease both;
+      animation: fade-up 0.5s ease both;
     }
-    .brand-tag::before {
-      content: '';
-      width: 6px; height: 6px;
+    .badge-dot {
+      width: 7px; height: 7px;
       border-radius: 50%;
       background: var(--teal);
-      box-shadow: 0 0 8px var(--teal);
-      animation: blink 1.5s ease-in-out infinite;
+      animation: blink 1.6s ease-in-out infinite;
     }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-    .hero-eyebrow {
-      font-size: clamp(13px, 2.5vw, 15px);
-      font-weight: 500;
-      color: var(--teal);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-      animation: fade-up 0.6s 0.1s ease both;
-    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
 
     .hero-headline {
-      font-size: clamp(44px, 11vw, 88px);
+      font-size: clamp(48px, 11vw, 96px);
       font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      margin-bottom: 8px;
-      animation: fade-up 0.6s 0.2s ease both;
+      line-height: 0.93;
+      letter-spacing: -0.04em;
+      color: var(--navy);
+      margin-bottom: 6px;
+      animation: fade-up 0.5s 0.1s ease both;
     }
-    .hero-headline .line-accent {
-      display: block;
+    .hero-headline .accent {
       color: var(--teal);
-      position: relative;
-      -webkit-text-stroke: 0;
+      display: block;
     }
-    .hero-headline .line-outline {
+    .hero-headline .stroke {
       display: block;
       color: transparent;
-      -webkit-text-stroke: 2px rgba(255,255,255,0.18);
+      -webkit-text-stroke: 2.5px var(--navy);
+      opacity: 0.18;
     }
 
     .hero-sub {
-      font-size: clamp(16px, 3vw, 19px);
-      font-weight: 400;
-      color: rgba(255,255,255,0.7);
-      line-height: 1.55;
-      max-width: 520px;
+      font-size: clamp(16px, 2.5vw, 19px);
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 500px;
       margin: 24px auto 36px;
-      animation: fade-up 0.6s 0.3s ease both;
+      animation: fade-up 0.5s 0.2s ease both;
     }
-    .hero-sub strong { color: var(--white); font-weight: 600; }
+    .hero-sub strong { color: var(--navy); }
 
     @keyframes fade-up {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── CTA Button ────────────────────────── */
-    .btn-cta {
+    /* ── CTA Button ── */
+    .btn-primary {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--teal);
-      color: var(--navy);
+      background: var(--navy);
+      color: var(--white);
       font-family: inherit;
       font-size: 16px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      padding: 18px 40px;
+      font-weight: 700;
+      padding: 18px 44px;
       border-radius: 100px;
       border: none;
       cursor: pointer;
       text-decoration: none;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 40px rgba(0,201,177,0.35), 0 8px 24px rgba(0,0,0,0.3);
-      animation: fade-up 0.6s 0.4s ease both;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 4px 20px rgba(11,25,41,0.18), 0 1px 3px rgba(11,25,41,0.1);
+      animation: fade-up 0.5s 0.3s ease both;
     }
-    .btn-cta::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
-      transform: translateX(-100%);
-      transition: transform 0.5s ease;
+    .btn-primary:hover {
+      background: #162d47;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(11,25,41,0.22);
     }
-    .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 0 60px rgba(0,201,177,0.5), 0 16px 40px rgba(0,0,0,0.4); }
-    .btn-cta:hover::before { transform: translateX(100%); }
-    .btn-cta:active { transform: translateY(0); }
-    .btn-arrow { font-size: 20px; transition: transform 0.2s; }
-    .btn-cta:hover .btn-arrow { transform: translateX(4px); }
+    .btn-primary .arrow { transition: transform 0.2s; }
+    .btn-primary:hover .arrow { transform: translateX(4px); }
 
     .btn-note {
       display: block;
       margin-top: 12px;
       font-size: 12px;
       color: var(--text-muted);
-      animation: fade-up 0.6s 0.5s ease both;
+      animation: fade-up 0.5s 0.4s ease both;
     }
 
-    /* ── Countdown ─────────────────────────── */
+    /* ── Countdown ── */
     .countdown-wrap {
-      margin: 48px auto 0;
-      padding: 0 20px;
-      max-width: 760px;
       width: 100%;
-      animation: fade-up 0.6s 0.5s ease both;
+      max-width: 800px;
+      padding: 0 24px;
+      margin-bottom: 16px;
+      animation: fade-up 0.5s 0.4s ease both;
     }
-    .countdown-label {
-      text-align: center;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+    .countdown-inner {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 12px rgba(11,25,41,0.06);
+    }
+    .cd-label-left {
+      font-size: 13px;
+      font-weight: 600;
       color: var(--text-muted);
-      margin-bottom: 14px;
+      white-space: nowrap;
     }
+    .cd-label-left span { display: block; font-size: 11px; font-weight: 500; margin-top: 2px; color: #A0ADB4; }
     .countdown {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      max-width: 480px;
-      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      align-items: center;
     }
     .cd-unit {
-      background: var(--navy-mid);
+      text-align: center;
+      min-width: 58px;
+      background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 16px 8px 12px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .cd-unit::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--teal), transparent);
-      opacity: 0.6;
+      padding: 10px 8px 8px;
     }
     .cd-num {
       display: block;
-      font-size: clamp(28px, 6vw, 40px);
+      font-size: clamp(22px, 4vw, 30px);
       font-weight: 800;
+      color: var(--navy);
       letter-spacing: -0.02em;
-      color: var(--teal);
-      line-height: 1;
       font-variant-numeric: tabular-nums;
+      line-height: 1;
     }
-    .cd-label {
+    .cd-sep {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-bottom: 4px;
+      line-height: 1;
+    }
+    .cd-tag {
       display: block;
       font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-top: 6px;
+      margin-top: 5px;
     }
 
-    /* ── Divider ───────────────────────────── */
-    .divider {
+    /* ── Section wrapper ── */
+    .section {
       width: 100%;
-      max-width: 760px;
-      padding: 0 20px;
-      margin: 56px auto;
-    }
-    .divider-line {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      max-width: 800px;
+      padding: 0 24px;
+      margin-bottom: 20px;
     }
 
-    /* ── Coupon card ───────────────────────── */
-    .coupon-section {
-      padding-bottom: 0;
-      text-align: center;
-    }
-    .coupon-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
+    /* ── Coupon card ── */
     .coupon-card {
-      background: var(--navy-mid);
+      background: var(--white);
       border: 2px dashed var(--teal);
       border-radius: 20px;
-      padding: 28px 24px;
-      max-width: 420px;
-      margin: 0 auto;
+      padding: 32px 28px;
+      text-align: center;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,168,150,0.08);
     }
     .coupon-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, var(--teal-glow) 0%, transparent 70%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,168,150,0.06) 0%, transparent 65%);
       pointer-events: none;
     }
-    /* notch cutouts */
+    /* ticket notch cutouts */
     .coupon-card::after {
       content: '';
       position: absolute;
-      top: 50%; left: -14px;
+      top: 50%;
+      left: -14px;
       transform: translateY(-50%);
       width: 28px; height: 28px;
-      background: var(--navy);
       border-radius: 50%;
-      box-shadow: 388px 0 0 0 var(--navy);
+      background: var(--bg);
+      box-shadow: 386px 0 0 0 var(--bg);
     }
-
-    .coupon-desc {
-      font-size: 13px;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 14px;
+    .coupon-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 8px;
     }
-    .coupon-code-row {
+    .coupon-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .coupon-row {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
     }
     .coupon-code {
-      font-size: clamp(24px, 6vw, 36px);
+      font-size: clamp(28px, 7vw, 44px);
       font-weight: 900;
       letter-spacing: 0.1em;
-      color: var(--teal);
-      text-shadow: 0 0 30px rgba(0,201,177,0.5);
+      color: var(--navy);
     }
     .btn-copy {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--teal-glow);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 16px;
+      background: var(--teal-light);
+      border: 1.5px solid var(--teal-border);
+      border-radius: 10px;
+      padding: 10px 18px;
       font-family: inherit;
       font-size: 13px;
-      font-weight: 600;
-      color: var(--teal);
+      font-weight: 700;
+      color: var(--teal-dark);
       cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
+      transition: background 0.2s, transform 0.15s, border-color 0.2s;
     }
-    .btn-copy:hover { background: rgba(0,201,177,0.25); transform: scale(1.04); }
-    .btn-copy.copied { color: var(--white); background: var(--teal); border-color: var(--teal); }
+    .btn-copy:hover { background: var(--teal-mid); transform: scale(1.04); border-color: var(--teal); }
+    .btn-copy.copied { background: var(--teal); color: var(--white); border-color: var(--teal); }
     .coupon-sub {
       font-size: 12px;
       color: var(--text-muted);
-      margin-top: 14px;
+      margin-top: 16px;
+      line-height: 1.6;
     }
 
-    /* ── How It Works ──────────────────────── */
-    .hiw-section {
-      padding-bottom: 0;
-    }
-    .section-title {
-      text-align: center;
+    /* ── How it works ── */
+    .section-label {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 10px;
-    }
-    .section-heading {
+      color: var(--teal-dark);
       text-align: center;
-      font-size: clamp(26px, 5vw, 36px);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: clamp(24px, 4vw, 32px);
       font-weight: 800;
       letter-spacing: -0.02em;
-      margin-bottom: 40px;
-      color: var(--white);
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 28px;
     }
-
     .steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 14px;
     }
     .step {
-      background: var(--navy-mid);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--white);
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 24px 18px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
     }
     .step:hover {
-      border-color: var(--border);
-      transform: translateY(-4px);
-    }
-    .step-num {
-      width: 40px; height: 40px;
-      border-radius: 12px;
-      background: var(--teal-glow);
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--teal);
-      margin: 0 auto 14px;
+      border-color: var(--teal);
+      box-shadow: 0 4px 20px rgba(0,168,150,0.1);
+      transform: translateY(-3px);
     }
     .step-icon {
-      font-size: 28px;
-      margin-bottom: 10px;
+      font-size: 32px;
       display: block;
+      margin-bottom: 12px;
+    }
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 10px;
     }
     .step h3 {
       font-size: 15px;
       font-weight: 700;
+      color: var(--navy);
       margin-bottom: 6px;
     }
     .step p {
       font-size: 13px;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.5;
+      color: var(--text-muted);
+      line-height: 1.55;
     }
 
-    /* connector line between steps */
-    .steps-wrap {
-      position: relative;
-    }
-
-    /* ── Trust badges ──────────────────────── */
-    .trust-section {
-      padding-bottom: 64px;
-    }
+    /* ── Trust badges ── */
     .trust-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 14px;
     }
     .trust-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding: 20px 12px;
-      background: var(--navy-mid);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 14px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 16px;
       text-align: center;
-      transition: border-color 0.3s;
+      transition: border-color 0.25s, box-shadow 0.25s;
     }
-    .trust-item:hover { border-color: var(--border); }
-    .trust-icon {
-      font-size: 28px;
+    .trust-item:hover {
+      border-color: var(--teal-border);
+      box-shadow: 0 2px 16px rgba(0,168,150,0.08);
     }
-    .trust-item h4 {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--white);
+    .trust-icon { font-size: 30px; display: block; margin-bottom: 10px; }
+    .trust-item h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .trust-item p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── Divider ── */
+    .divider {
+      width: 100%;
+      max-width: 800px;
+      padding: 0 24px;
+      margin: 8px 0 20px;
     }
-    .trust-item p {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.4;
+    .divider hr {
+      border: none;
+      border-top: 1px solid var(--border);
     }
 
-    /* ── Final CTA strip ───────────────────── */
+    /* ── Final CTA ── */
     .final-cta {
       width: 100%;
-      background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 100%);
-      padding: 48px 20px;
+      background: var(--navy);
+      padding: 56px 24px;
       text-align: center;
+      margin-top: 12px;
     }
     .final-cta h2 {
-      font-size: clamp(24px, 5vw, 36px);
+      font-size: clamp(24px, 5vw, 38px);
       font-weight: 900;
-      color: var(--navy);
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+    .final-cta h2 em {
+      font-style: normal;
+      color: #4DEDD8;
     }
     .final-cta p {
       font-size: 16px;
-      color: rgba(11,25,41,0.75);
-      margin-bottom: 24px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 28px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .btn-cta-dark {
+    .btn-light {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--navy);
-      color: var(--teal);
+      background: var(--white);
+      color: var(--navy);
       font-family: inherit;
       font-size: 16px;
       font-weight: 800;
-      padding: 16px 36px;
+      padding: 17px 40px;
       border-radius: 100px;
       border: none;
       cursor: pointer;
       text-decoration: none;
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
     }
-    .btn-cta-dark:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.35); }
+    .btn-light:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(0,0,0,0.3); }
+    .btn-light .arrow { transition: transform 0.2s; }
+    .btn-light:hover .arrow { transform: translateX(4px); }
 
-    /* ── Legal footer ──────────────────────── */
+    /* ── Legal ── */
     .legal {
       width: 100%;
-      padding: 20px;
+      padding: 20px 24px;
       text-align: center;
       font-size: 11px;
-      color: rgba(255,255,255,0.25);
-      line-height: 1.6;
+      color: #A0ADB4;
+      line-height: 1.7;
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.07);
     }
 
-    /* ── Mobile ────────────────────────────── */
-    @media (max-width: 560px) {
-      .steps { grid-template-columns: 1fr; }
-      .trust-grid { grid-template-columns: 1fr; }
-      .hero { padding-top: 40px; }
-      .countdown { max-width: 320px; }
-      .coupon-card::after { display: none; }
-    }
-
-    /* ── Scroll reveal ─────────────────────── */
+    /* ── Scroll reveal ── */
     .reveal {
       opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Mobile ── */
+    @media (max-width: 560px) {
+      .steps, .trust-grid { grid-template-columns: 1fr; }
+      .countdown-inner { gap: 16px; }
+      .coupon-card::after { display: none; }
+      .hero { padding-top: 44px; }
     }
   </style>
 </head>
 <body>
 
-<!-- Background layers -->
-<div class="bg-mesh"></div>
-<div class="bg-grid"></div>
-
-<!-- Urgency topbar -->
-<div class="topbar">
-  <span>⚡ Limited Time Offer — Buy 1 Get 1 FREE on Any Peptide ⚡</span>
-</div>
-
 <div class="page">
 
-  <!-- ── HERO ─────────────────────────────── -->
-  <section class="hero">
-    <div class="brand-tag">theOTCmd.com · Exclusive Offer</div>
-    <p class="hero-eyebrow">Limited-time promotion</p>
+  <!-- Urgency bar -->
+  <div class="topbar">
+    ⚡ Limited-Time Offer — <em>Buy 1 Get 1 FREE</em> on Any Peptide · While Stocks Last
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="badge"><span class="badge-dot"></span>theOTCmd.com · Exclusive Deal</div>
     <h1 class="hero-headline">
-      <span class="line-outline">Buy One</span>
-      <span class="line-accent">Get One</span>
-      <span>FREE</span>
+      <span class="stroke">Buy One</span>
+      <span class="accent">Get One</span>
+      FREE
     </h1>
     <p class="hero-sub">
       Get <strong>double the peptides</strong> for the price of one.
-      Premium, lab-tested peptides — no restrictions, any product sitewide.
+      Any product, any peptide — no restrictions.
     </p>
-    <a href="https://theotcmd.com/shop" class="btn-cta">
-      Shop Now &amp; Claim Offer
-      <span class="btn-arrow">→</span>
+    <a href="https://theotcmd.com/shop" class="btn-primary">
+      Shop Now &amp; Claim Offer <span class="arrow">→</span>
     </a>
-    <span class="btn-note">No minimum order · Any peptide · Limited availability</span>
-  </section>
+    <span class="btn-note">No minimum order · Any peptide sitewide · Limited stock</span>
+  </div>
 
-  <!-- ── COUNTDOWN ──────────────────────────── -->
+  <!-- Countdown -->
   <div class="countdown-wrap reveal">
-    <p class="countdown-label">⏳ Offer expires in</p>
-    <div class="countdown">
-      <div class="cd-unit"><span class="cd-num" id="cd-h">47</span><span class="cd-label">Hours</span></div>
-      <div class="cd-unit"><span class="cd-num" id="cd-m">59</span><span class="cd-label">Mins</span></div>
-      <div class="cd-unit"><span class="cd-num" id="cd-s">59</span><span class="cd-label">Secs</span></div>
-      <div class="cd-unit"><span class="cd-num" id="cd-ms">99</span><span class="cd-label">Msec</span></div>
+    <div class="countdown-inner">
+      <div class="cd-label-left">
+        Offer ends in
+        <span>Don't miss out</span>
+      </div>
+      <div class="countdown">
+        <div class="cd-unit"><span class="cd-num" id="cd-h">47</span><span class="cd-tag">Hrs</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cd-m">59</span><span class="cd-tag">Min</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cd-s">59</span><span class="cd-tag">Sec</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cd-ms">99</span><span class="cd-tag">Ms</span></div>
+      </div>
     </div>
   </div>
 
-  <div class="divider"><div class="divider-line"></div></div>
-
-  <!-- ── COUPON ─────────────────────────────── -->
-  <section class="coupon-section reveal">
-    <p class="coupon-label">Your promo code</p>
+  <!-- Coupon -->
+  <div class="section reveal">
     <div class="coupon-card">
-      <p class="coupon-desc">Add 2 peptides to your cart, then enter this code at checkout:</p>
-      <div class="coupon-code-row">
+      <p class="coupon-eyebrow">Your promo code</p>
+      <p class="coupon-title">Add 2 peptides to your cart, then enter at checkout:</p>
+      <div class="coupon-row">
         <span class="coupon-code" id="coupon-text">BOGO-OTC</span>
         <button class="btn-copy" id="copy-btn" onclick="copyCode()">
           <span id="copy-icon">⧉</span>
-          <span id="copy-label">Copy</span>
+          <span id="copy-label">Copy Code</span>
         </button>
       </div>
-      <p class="coupon-sub">One use per customer · Valid on all peptide products · While stock lasts</p>
+      <p class="coupon-sub">One use per customer &nbsp;·&nbsp; Valid on all peptide products &nbsp;·&nbsp; While stock lasts</p>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"><div class="divider-line"></div></div>
+  <div class="divider"><hr /></div>
 
-  <!-- ── HOW IT WORKS ───────────────────────── -->
-  <section class="hiw-section reveal">
-    <p class="section-title">How It Works</p>
-    <h2 class="section-heading">Claim your free peptide<br>in 3 simple steps</h2>
-    <div class="steps-wrap">
-      <div class="steps">
-        <div class="step">
-          <span class="step-icon">🔬</span>
-          <div class="step-num">1</div>
-          <h3>Browse Peptides</h3>
-          <p>Explore our full catalog of premium, lab-verified peptides.</p>
-        </div>
-        <div class="step">
-          <span class="step-icon">🛒</span>
-          <div class="step-num">2</div>
-          <h3>Add 2 to Cart</h3>
-          <p>Select any 2 peptide products and add both to your cart.</p>
-        </div>
-        <div class="step">
-          <span class="step-icon">🎁</span>
-          <div class="step-num">3</div>
-          <h3>Enter Code at Checkout</h3>
-          <p>Apply <strong style="color:var(--teal)">BOGO-OTC</strong> and your second item is FREE.</p>
-        </div>
+  <!-- How it works -->
+  <div class="section reveal">
+    <p class="section-label">How It Works</p>
+    <h2 class="section-title">Claim your free peptide in 3 steps</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-icon">🔬</span>
+        <div class="step-num">1</div>
+        <h3>Browse Peptides</h3>
+        <p>Explore our full catalog of premium, lab-verified peptides.</p>
+      </div>
+      <div class="step">
+        <span class="step-icon">🛒</span>
+        <div class="step-num">2</div>
+        <h3>Add 2 to Cart</h3>
+        <p>Choose any 2 peptide products and add both to your cart.</p>
+      </div>
+      <div class="step">
+        <span class="step-icon">🎁</span>
+        <div class="step-num">3</div>
+        <h3>Enter Code at Checkout</h3>
+        <p>Apply <strong style="color:var(--teal-dark)">BOGO-OTC</strong> — your second item is FREE.</p>
       </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"><div class="divider-line"></div></div>
+  <div class="divider"><hr /></div>
 
-  <!-- ── TRUST ──────────────────────────────── -->
-  <section class="trust-section reveal">
-    <p class="section-title">Why theOTCmd.com</p>
-    <h2 class="section-heading">Quality you can trust</h2>
+  <!-- Trust -->
+  <div class="section reveal" style="margin-bottom:48px">
+    <p class="section-label">Why theOTCmd.com</p>
+    <h2 class="section-title">Quality you can trust</h2>
     <div class="trust-grid">
       <div class="trust-item">
         <span class="trust-icon">🧪</span>
@@ -685,28 +618,28 @@
         <p>Not happy? We'll make it right — guaranteed.</p>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ── FINAL CTA ──────────────────────────── -->
-  <div class="final-cta" style="width:100%">
-    <h2>Ready to double your order?</h2>
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Ready to <em>double</em> your order?</h2>
     <p>This BOGO deal won't last — grab yours before the timer hits zero.</p>
-    <a href="https://theotcmd.com/shop" class="btn-cta-dark">
-      Claim My Free Peptide →
+    <a href="https://theotcmd.com/shop" class="btn-light">
+      Claim My Free Peptide <span class="arrow">→</span>
     </a>
   </div>
 
-  <!-- ── LEGAL ──────────────────────────────── -->
+  <!-- Legal -->
   <div class="legal">
-    Offer valid while stocks last. One promo code per customer. Cannot be combined with other offers.
+    Offer valid while stocks last. One promo code per customer. Cannot be combined with other offers.<br>
     theOTCmd.com reserves the right to modify or cancel this promotion at any time.
     Products are intended for research purposes only.
   </div>
 
-</div><!-- /page -->
+</div>
 
 <script>
-  /* ── Countdown timer (48h from page load, persisted in sessionStorage) ── */
+  /* ── Countdown (48h, persisted in sessionStorage) ── */
   (function() {
     const KEY = 'otcmd_bogo_end';
     let end = parseInt(sessionStorage.getItem(KEY) || '0');
@@ -714,28 +647,19 @@
       end = Date.now() + (48 * 60 * 60 * 1000);
       sessionStorage.setItem(KEY, end);
     }
-
-    const h  = document.getElementById('cd-h');
-    const m  = document.getElementById('cd-m');
-    const s  = document.getElementById('cd-s');
+    const h = document.getElementById('cd-h');
+    const m = document.getElementById('cd-m');
+    const s = document.getElementById('cd-s');
     const ms = document.getElementById('cd-ms');
-
-    function pad(n, len = 2) { return String(n).padStart(len, '0'); }
-
+    function pad(n) { return String(n).padStart(2, '0'); }
     function tick() {
-      const diff = Math.max(0, end - Date.now());
+      const diff     = Math.max(0, end - Date.now());
       const totalSec = Math.floor(diff / 1000);
-      const hours    = Math.floor(totalSec / 3600);
-      const mins     = Math.floor((totalSec % 3600) / 60);
-      const secs     = totalSec % 60;
-      const millis   = Math.floor((diff % 1000) / 10);
-
-      h.textContent  = pad(hours);
-      m.textContent  = pad(mins);
-      s.textContent  = pad(secs);
-      ms.textContent = pad(millis);
+      h.textContent  = pad(Math.floor(totalSec / 3600));
+      m.textContent  = pad(Math.floor((totalSec % 3600) / 60));
+      s.textContent  = pad(totalSec % 60);
+      ms.textContent = pad(Math.floor((diff % 1000) / 10));
     }
-
     tick();
     setInterval(tick, 50);
   })();
@@ -746,43 +670,34 @@
     const btn  = document.getElementById('copy-btn');
     const icon = document.getElementById('copy-icon');
     const lbl  = document.getElementById('copy-label');
-
-    navigator.clipboard.writeText(code).then(() => {
+    function setDone() {
       btn.classList.add('copied');
       icon.textContent = '✓';
       lbl.textContent  = 'Copied!';
       setTimeout(() => {
         btn.classList.remove('copied');
         icon.textContent = '⧉';
-        lbl.textContent  = 'Copy';
+        lbl.textContent  = 'Copy Code';
       }, 2500);
-    }).catch(() => {
-      /* fallback for older browsers */
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(code).then(setDone).catch(setDone);
+    } else {
       const ta = document.createElement('textarea');
-      ta.value = code;
-      ta.style.position = 'fixed';
-      ta.style.opacity  = '0';
-      document.body.appendChild(ta);
-      ta.select();
+      ta.value = code; ta.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(ta); ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
-      btn.classList.add('copied');
-      icon.textContent = '✓';
-      lbl.textContent  = 'Copied!';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        icon.textContent = '⧉';
-        lbl.textContent  = 'Copy';
-      }, 2500);
-    });
+      setDone();
+    }
   }
 
   /* ── Scroll reveal ── */
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-  }, { threshold: 0.1 });
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
-
 </body>
 </html>
