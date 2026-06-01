@@ -3,7 +3,7 @@
  * Plugin Name:  theOTCmd BOGO — Buy 1 Get 1 Free
  * Description:  Apply coupon code BOGO-OTC to get the cheapest item in the cart for free.
  * Version:      1.0.0
- * Author:       theOTCmd.com
+ * Author:       Russel Balmocena
  * License:      GPL-2.0-or-later
  * Requires PHP: 7.4
  */
