@@ -22,6 +22,7 @@ add_filter( 'woocommerce_coupon_discount_types', function( $types ) {
 } );
 
 // ── 2. Shared helper: get eligible item prices for a coupon ──────────────────
+if ( ! function_exists( 'otcmd_get_eligible_prices' ) ) :
 function otcmd_get_eligible_prices( WC_Cart $cart, WC_Coupon $coupon ): array {
     $restricted_products   = $coupon->get_product_ids();
     $restricted_categories = $coupon->get_product_categories();
@@ -82,6 +83,7 @@ function otcmd_get_eligible_prices( WC_Cart $cart, WC_Coupon $coupon ): array {
 
     return $prices;
 }
+endif;
 
 // ── 3. Apply the correct discount based on type ──────────────────────────────
 add_action( 'woocommerce_cart_calculate_fees', function( WC_Cart $cart ) {
