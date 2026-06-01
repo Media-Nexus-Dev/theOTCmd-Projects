@@ -3,8 +3,9 @@
  * Plugin Name:  Buy 1 Take 1 for WooCommerce
  * Description:  Adds "Buy 1 Take 1 (Cheapest Item Free)" and "Buy 2 Take 1 (Every 3rd Item Free)" as native WooCommerce coupon discount types. Fully respects product/category restrictions, exclusions, sale item exclusions, expiry dates, usage limits, and min/max spend.
  * Version:      1.0.0
+ * Plugin URI:   https://github.com/Media-Nexus-Dev/theOTCmd-Projects
  * Author:       Russel Balmocena
- * Author URI:   https://theotcmd.com
+ * Author URI:   https://github.com/Media-Nexus-Dev
  * License:      GPL-2.0-or-later
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:  buy1take1-woocommerce
