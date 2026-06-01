@@ -2,7 +2,7 @@
 /**
  * Plugin Name:  theOTCmd BOGO — Buy 1 Get 1 Free
  * Description:  Adds "Buy 1 Get 1 Free (Cheapest Item)" as a native WooCommerce coupon discount type.
- * Version:      2.0.0
+ * Version:      2.1.0
  * Author:       Russel Balmocena
  * License:      GPL-2.0-or-later
  * Requires PHP: 7.4
@@ -18,7 +18,7 @@ add_filter( 'woocommerce_coupon_discount_types', function( $types ) {
     return $types;
 } );
 
-// 2. Apply the discount as a negative fee when a BOGO coupon is in the cart
+// 2. Apply discount as a negative fee and store amount for display
 add_action( 'woocommerce_cart_calculate_fees', function( WC_Cart $cart ) {
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) return;
 
@@ -34,7 +34,6 @@ add_action( 'woocommerce_cart_calculate_fees', function( WC_Cart $cart ) {
 
     if ( ! $bogo_coupon ) return;
 
-    // Build flat list of item prices respecting quantity
     $prices = [];
     foreach ( $cart->get_cart() as $item ) {
         $price = floatval( $item['data']->get_price() );
@@ -48,18 +47,20 @@ add_action( 'woocommerce_cart_calculate_fees', function( WC_Cart $cart ) {
         return;
     }
 
-    sort( $prices ); // ascending — cheapest first
+    sort( $prices );
     $discount = $prices[0];
-    $taxable  = wc_tax_enabled();
+
+    // Store so coupon label can display the real amount
+    WC()->session->set( 'bogo_discount_amount', $discount );
 
     $cart->add_fee(
         sprintf( __( '%s: Free Item', 'otcmd-bogo' ), strtoupper( $bogo_coupon->get_code() ) ),
         -$discount,
-        $taxable
+        wc_tax_enabled()
     );
 } );
 
-// 3. Return 0 monetary discount — our fee handles it
+// 3. Return 0 — fee handles actual discount
 add_filter( 'woocommerce_coupon_get_discount_amount', function( $discount, $discounting_amount, $cart_item, $single, WC_Coupon $coupon ) {
     if ( $coupon->get_discount_type() === 'bogo_cheapest_free' ) {
         return 0;
@@ -67,7 +68,29 @@ add_filter( 'woocommerce_coupon_get_discount_amount', function( $discount, $disc
     return $discount;
 }, 10, 5 );
 
-// 4. Friendly notice on coupon apply
+// 4. Fix the coupon row HTML to show real discount amount instead of -$0.00
+add_filter( 'woocommerce_cart_totals_coupon_html', function( $coupon_html, WC_Coupon $coupon, $discount_amount_html ) {
+    if ( $coupon->get_discount_type() !== 'bogo_cheapest_free' ) {
+        return $coupon_html;
+    }
+
+    $amount = WC()->session ? floatval( WC()->session->get( 'bogo_discount_amount', 0 ) ) : 0;
+
+    if ( $amount <= 0 ) {
+        return $coupon_html;
+    }
+
+    $remove = sprintf(
+        '<a href="%s" class="woocommerce-remove-coupon" data-coupon="%s">%s</a>',
+        esc_url( add_query_arg( 'remove_coupon', rawurlencode( $coupon->get_code() ), wc_get_cart_url() ) ),
+        esc_attr( $coupon->get_code() ),
+        esc_html__( '[Remove]', 'woocommerce' )
+    );
+
+    return '-' . wc_price( $amount ) . ' ' . $remove;
+}, 10, 3 );
+
+// 5. Friendly notice on apply
 add_action( 'woocommerce_applied_coupon', function( string $code ) {
     $coupon = new WC_Coupon( $code );
     if ( $coupon->get_discount_type() !== 'bogo_cheapest_free' ) return;
