@@ -132,22 +132,14 @@ add_action( 'woocommerce_cart_calculate_fees', function( WC_Cart $cart ) {
 
     sort( $prices ); // ascending — cheapest first
 
-    if ( $active_type === 'b1t1_cheapest_free' ) {
-        // One free item — the cheapest
-        $discount = $prices[0];
-    } else {
-        // Every complete set of 3 → cheapest in each set is free
-        $discount = 0;
-        $sets     = floor( count( $prices ) / 3 );
-        for ( $s = 0; $s < $sets; $s++ ) {
-            $discount += $prices[ $s * 3 ];
-        }
-    }
+    // Both offers free exactly ONE item — the single cheapest qualifying item.
+    // Buy 1 Take 1 needs 2 qualifying items, Buy 2 Take 1 needs 3 (gated by $min_qty above).
+    $discount = $prices[0];
 
     WC()->session->set( 'b1t1_discount_amount', $discount );
 
     $cart->add_fee(
-        sprintf( __( '%s: Free Item(s)', 'buy1take1-woocommerce' ), strtoupper( $active_coupon->get_code() ) ),
+        sprintf( __( '%s: Free Item', 'buy1take1-woocommerce' ), strtoupper( $active_coupon->get_code() ) ),
         -$discount,
         wc_tax_enabled()
     );
